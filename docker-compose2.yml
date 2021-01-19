@@ -1,0 +1,65 @@
+version: '2.3'
+
+services:
+  main:
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    runtime: nvidia
+    restart: always
+    links:
+      - rabbitmq
+    depends_on:
+      - rabbitmq
+    env_file:
+      - "docker-compose-env/main.env"
+      - "docker-compose-env/mysql.env"
+      - "docker-compose-env/rabbitmq.env"
+    expose:
+      - "8000"
+      - "22"
+    ports:
+      - "8001:8000"
+      - "8022:22"
+    stdin_open: true
+    tty: true
+  main_e2e:
+    build:
+      context: ./
+      dockerfile: Dockerfile2
+    runtime: nvidia
+    restart: always
+    links:
+      - rabbitmq2
+    depends_on:
+      - rabbitmq2
+    environment:
+      - LC_ALL=C.UTF-8
+    env_file:
+      - "docker-compose-env/main.env"
+      - "docker-compose-env/mysql.env"
+      - "docker-compose-env/rabbitmq.env"
+    expose:
+      - "8000"
+      - "22"
+    ports:
+      - "8002:8000"
+      - "5022:22"
+    stdin_open: true
+    tty: true
+  rabbitmq:
+    image: rabbitmq:latest
+    restart: always
+    env_file:
+      - "docker-compose-env/rabbitmq.env"
+    expose:
+      - "5672"
+      - "15672"
+  rabbitmq2:
+    image: rabbitmq:latest
+    restart: always
+    env_file:
+      - "docker-compose-env/rabbitmq.env"
+    expose:
+      - "5672"
+      - "15672"
