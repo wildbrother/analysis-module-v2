@@ -1,4 +1,4 @@
-FROM sogangmm/wildbrother:e2e-mlt0.2-py36-mysql
+FROM wildbrother/e2e_server:1.0
 
 RUN apt-get update \
     && apt-get -y install python3 python3-pip python3-dev \

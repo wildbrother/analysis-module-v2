@@ -1,4 +1,4 @@
-FROM sogangmm/wildbrother:efficientdet-server0.1-py36-mysql
+FROM wildbrother/efficientdet_server:1.3
 
 RUN apt-get update \
     && apt-get -y install python3 python3-pip python3-dev \
